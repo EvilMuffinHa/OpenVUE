@@ -44,6 +44,7 @@ OpenVUE changes the name and icon of StudentVUE+ to preserve the legality of thi
 - **What you'll need:** A MongoDB or MongoDB-compatible database (v3.2 or later), Node.js (v10.x or later w/ NPM v6.x or later)
 - Create a `credentials.json` file under `/secure` *(in the OpenVUE directory)*
 - Set the `database`, `AESKey`, and `sessionKey` keys to your MongoDB URI and two random strings respectively. The AES key should be 16 bytes and in hex (32 chars). A new database will be created under the path listed and the session key will be used to encrypt the cookie used for seesion IDs. 
+- Set the `svueplus` key to another MongoDB URI for the StudentVUE database.
 - Install the necessary server dependencies with `npm install`
 - Start the server up with `node index.js`!
 
@@ -52,6 +53,7 @@ At this point, your `credentials.json` file should look something like this:
 {
 	"AESKey": "(32 char hexadecimal string)",
 	"database": "mongodb://localhost:27017/openvue", 
+	"svueplus": "mongodb://localhost:27017/svueplus", 
 	"sessionkey": "(random, hopefully cryptographically secure string)"
 }
 ```
@@ -90,6 +92,9 @@ You may have noticed a `tools` directory included with OpenVUE. It contains a sc
 2. Makes an attestation change to **fido2-library** to bypass the signature counter check if the attestation counter was set to zero. In iOS 14 (unsure if it's still the case), Apple hardcodes the counter value to zero, which normally would cause all attempts at using Face ID / Touch ID as a security key to fail. This reduces security ever so slightly, but was an acceptable compromise for me to get iOS devices working. 
 
 If you'd like to implement these changes, simply run `node patch.js` under the `tools` directory **after** you install node_modules and it'll patch the necessary files automatically. 
+
+### Docker
+You can run this application in docker. Build the image with `docker build . -t openvue` and run with `docker run -dp 8098:8098 -v /root/credentials:/app/secure --name openvue openvue` with the `credentials.json` file stored in `/root/credentials/credentials.json`.
 
 ## Legal
 ### Licensing

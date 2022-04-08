@@ -155,7 +155,7 @@ const rateLimit = require('express-rate-limit');
 const rl_MongoStore = require('rate-limit-mongo'); 
 let limiter = new rateLimit({
   store: new rl_MongoStore({
-    uri: 'mongodb://localhost:27017/svueplus', 
+    uri: credentials.svueplus, 
     expireTimeMs: 36 * 1000
   }), 
   max: 8, // 8 requests per 16 seconds max
@@ -166,7 +166,7 @@ let limiter = new rateLimit({
 
 let gbLimiter = new rateLimit({
   store: new rl_MongoStore({
-    uri: 'mongodb://localhost:27017/svueplus', 
+    uri: credentials.svueplus, 
     expireTimeMs: 36 * 1000
   }), 
   max: 12, 
